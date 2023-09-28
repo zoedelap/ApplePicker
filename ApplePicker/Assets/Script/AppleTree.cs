@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class AppleTree : MonoBehaviour
 {
-    [Header("Inscribed")]
-    public GameObject applePrefab;
-    public float boundary = 10.0f;
-    public float dropRate;
-    public float initVel = 1f;
-    public float changeRate;
+    [SerializeField] private GameObject applePrefab;
+    [SerializeField] private float boundary = 10.0f;
+    [SerializeField] private float dropRate;
+    [SerializeField] private float initVel = 1f;
+    [SerializeField] private float changeRate;
 
+    private float eps = 0.0001f;
     void Start()
     {
         
@@ -20,18 +20,22 @@ public class AppleTree : MonoBehaviour
     void Update()
     {
         Vector3 pos = transform.position;
-        if ((pos.x - 0.001 <= boundary &&  boundary <= pos.x + 0.001) || (pos.x - 0.001 <= -boundary && -boundary <= pos.x + 0.001))
+        if ((pos.x - eps <= boundary &&  boundary <= pos.x + eps) || (pos.x - eps <= -boundary && -boundary <= pos.x + eps))
+        {
+            initVel *= -1;
+        } 
+        pos.x += initVel * Time.deltaTime;
+        if (pos.x <= -boundary) pos.x = -boundary;
+        else if (pos.x >= boundary) pos.x = boundary;
+        transform.position = pos;
+    }
+
+
+    private void FixedUpdate()
+    {
+        if (Random.value <= changeRate)
         {
             initVel *= -1;
         }
-        pos.x += initVel * Time.deltaTime;
-        if (pos.x >= boundary)
-        {
-            pos.x = boundary;
-        }
-        transform.position = pos;
-
-        
-        
     }
 }
