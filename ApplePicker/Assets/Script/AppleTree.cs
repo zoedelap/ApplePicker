@@ -13,7 +13,7 @@ public class AppleTree : MonoBehaviour
     private float eps = 0.0001f;
     void Start()
     {
-        
+        Invoke(nameof(DropApple), 2.0f);
     }
 
     // Update is called once per frame
@@ -37,5 +37,12 @@ public class AppleTree : MonoBehaviour
         {
             initVel *= -1;
         }
+    }
+
+    void DropApple()
+    {
+        GameObject apple = Instantiate<GameObject>(applePrefab);
+        apple.transform.position = transform.position;
+        Invoke(nameof(DropApple), dropRate);
     }
 }
