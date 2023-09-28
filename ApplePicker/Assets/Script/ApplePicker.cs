@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ApplePicker : MonoBehaviour
 {
@@ -8,14 +9,19 @@ public class ApplePicker : MonoBehaviour
     [SerializeField] private int numBaskets = 3;
     [SerializeField] private float basketBottomY = -14f;
     [SerializeField] private float basketSpacingY = 2f;
+    public List<GameObject> basketList;
+
     void Start()
     {
+        basketList = new List<GameObject>();
+
         for (int i = 0; i < numBaskets; i++)
         {
             GameObject tBasketGO = Instantiate<GameObject>(basketPrefab);
             Vector3 pos = Vector3.zero;
             pos.y = basketBottomY + (i * basketSpacingY);
             tBasketGO.transform.position = pos;
+            basketList.Add(tBasketGO);
         }
         
     }
@@ -26,6 +32,16 @@ public class ApplePicker : MonoBehaviour
         foreach (GameObject apple in appleArray)
         {
             Destroy(apple);
+        }
+
+        int basketindex = basketList.Count - 1;
+        GameObject basketGO = basketList[basketindex];
+        basketList.RemoveAt(basketindex);
+        Destroy(basketGO);
+
+        if (basketList.Count == 0)
+        {
+            SceneManager.LoadScene("_Scene_0");
         }
     }
 }
