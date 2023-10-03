@@ -13,6 +13,7 @@ public class ApplePicker : MonoBehaviour
     public List<GameObject> basketList;
 
     [SerializeField] private Button playAgainButton;
+    [SerializeField] private AppleTree appleTree;
 
     void Start()
     {
@@ -48,6 +49,7 @@ public class ApplePicker : MonoBehaviour
         if (basketList.Count == 0)
         {
             playAgainButton.gameObject.SetActive(true);
+            appleTree.GameOver();
         }
     }
 
