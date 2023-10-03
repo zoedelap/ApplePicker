@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class ApplePicker : MonoBehaviour
 {
@@ -11,8 +12,13 @@ public class ApplePicker : MonoBehaviour
     [SerializeField] private float basketSpacingY = 2f;
     public List<GameObject> basketList;
 
+    [SerializeField] private Button playAgainButton;
+
     void Start()
     {
+        playAgainButton.gameObject.SetActive(false);
+        playAgainButton.onClick.AddListener(ReloadScene);
+
         basketList = new List<GameObject>();
 
         for (int i = 0; i < numBaskets; i++)
@@ -41,7 +47,12 @@ public class ApplePicker : MonoBehaviour
 
         if (basketList.Count == 0)
         {
-            SceneManager.LoadScene("_Scene_0");
+            playAgainButton.gameObject.SetActive(true);
         }
+    }
+
+    public void ReloadScene()
+    {
+        SceneManager.LoadScene("_Scene_0");
     }
 }
